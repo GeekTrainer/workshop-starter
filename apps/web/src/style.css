@@ -108,3 +108,75 @@ html, body {
   font-style: italic;
   margin-top: 0.6rem;
 }
+
+/* ---------- Prompt box (Copilot SDK demo) ---------- */
+.prompt-box {
+  max-width: 720px;
+  margin: 2rem auto;
+  padding: 1.25rem;
+  background: rgba(20, 20, 20, 0.85);
+  border: 1px solid #333;
+  border-radius: 10px;
+  backdrop-filter: blur(6px);
+}
+.prompt-box__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+.prompt-box__header h1 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.prompt-box__status {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  font-style: italic;
+}
+.prompt-box__input {
+  width: 100%;
+  background: #0e0e0e;
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  resize: vertical;
+}
+.prompt-box__input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+.prompt-box__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+.prompt-box__send {
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.45rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}
+.prompt-box__send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.prompt-box__response {
+  margin: 1rem 0 0;
+  padding: 0.75rem;
+  min-height: 4rem;
+  background: #0e0e0e;
+  border: 1px solid #2a2a2a;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

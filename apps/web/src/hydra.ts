@@ -36,6 +36,18 @@ export function initHydra(canvas: HTMLCanvasElement): void {
   onResize();
 
   hydra.setFPS?.(30);
+
+  // Subtle ambient default so the page isn't a black void. Slow noise +
+  // a deep blue tint, dimmed enough to keep UI on top readable. Replace
+  // with `evalHydra(...)` from your own code whenever you're ready.
+  evalHydra(`
+    noise(2, 0.03)
+      .color(0.15, 0.25, 0.45)
+      .modulateRotate(osc(0.05, 0.02), 0.2)
+      .brightness(-0.25)
+      .contrast(0.9)
+      .out()
+  `);
 }
 
 export function evalHydra(code: string): { ok: boolean; error?: string } {

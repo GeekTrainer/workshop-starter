@@ -3,9 +3,7 @@
 
 import { showLoginGate } from './auth.js';
 import { initHydra } from './hydra.js';
-// `CopilotConnection` is exported but not instantiated here. Import it from
-// your own UI module once you decide how to render the chat.
-// import { CopilotConnection } from './copilot.js';
+import { mountPromptBox } from './prompt-box.js';
 
 async function main(): Promise<void> {
   // 1. Block until the user is signed in to Copilot.
@@ -16,8 +14,10 @@ async function main(): Promise<void> {
   const canvas = document.getElementById('hydra') as HTMLCanvasElement | null;
   if (canvas) initHydra(canvas);
 
-  // 3. Your turn. Render UI into <main id="app">, wire up a
-  //    `CopilotConnection`, and decide what the assistant should do.
+  // 3. Mount the demo prompt box so the landing page proves the
+  //    Copilot SDK pipeline (auth + WebSocket + streaming) is working.
+  const app = document.getElementById('app');
+  if (app) mountPromptBox(app);
 }
 
 void main();
