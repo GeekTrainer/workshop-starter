@@ -35,6 +35,19 @@ export async function registerAgentRoute(app: FastifyInstance): Promise<void> {
       client = new CopilotClient();
       await client.start();
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const authStatus = await (client as any).getAuthStatus?.();
+      if (authStatus && authStatus.isAuthenticated === false) {
+        sendEvent({
+          type: 'error',
+          code: 'auth',
+          message: 'Not signed in to Copilot. Please sign in to continue.',
+        });
+        socket.close();
+        try { await client.stop(); } catch { /* ignore */ }
+        return;
+      }
+
       let model: string | undefined;
       let reasoningSupported = false;
       let pickedReasoningEffort: string | undefined;
@@ -161,10 +174,14 @@ export async function registerAgentRoute(app: FastifyInstance): Promise<void> {
       sendServer({ type: 'ready', model, reasoning: reasoningSupported });
     } catch (err) {
       app.log.error(err, 'failed to start Copilot SDK');
+      const message = err instanceof Error ? err.message : String(err);
+      const isAuth = /not authenticated|authenticate first|unauthori[sz]ed/i.test(message);
       sendEvent({
         type: 'error',
-        message:
-          'Could not initialize Copilot SDK. Run `copilot auth login`, or set GITHUB_TOKEN.',
+        code: isAuth ? 'auth' : 'unknown',
+        message: isAuth
+          ? 'Copilot is not signed in. Please sign in to continue.'
+          : 'Could not initialize Copilot SDK. Run `copilot auth login`, or set GITHUB_TOKEN.',
       });
       socket.close();
       return;
@@ -189,7 +206,13 @@ export async function registerAgentRoute(app: FastifyInstance): Promise<void> {
         }
       } catch (err) {
         app.log.error(err, 'agent send failed');
-        sendEvent({ type: 'error', message: String(err) });
+        const message = err instanceof Error ? err.message : String(err);
+        const isAuth = /not authenticated|authenticate first|unauthori[sz]ed/i.test(message);
+        sendEvent({
+          type: 'error',
+          code: isAuth ? 'auth' : 'unknown',
+          message,
+        });
       }
     });
 

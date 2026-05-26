@@ -27,7 +27,7 @@ export type AgentHandlers = {
   onIntent: (text: string) => void;
   onReasoning: (reasoningId: string, delta: string) => void;
   onDone: () => void;
-  onError: (msg: string) => void;
+  onError: (msg: string, code?: 'auth' | 'unknown') => void;
   onReady: (info: { model?: string; reasoning?: boolean }) => void;
 };
 
@@ -85,7 +85,7 @@ export class CopilotConnection {
         this.handlers.onDone();
         break;
       case 'error':
-        this.handlers.onError(ev.message);
+        this.handlers.onError(ev.message, ev.code);
         break;
     }
   }

@@ -21,7 +21,7 @@ export type AgentEvent =
   | { type: 'intent'; text: string }
   | { type: 'reasoning'; reasoningId: string; delta: string }
   | { type: 'done' }
-  | { type: 'error'; message: string };
+  | { type: 'error'; message: string; code?: 'auth' | 'unknown' };
 
 export type ClientMessage =
   | { type: 'prompt'; payload: AgentRequest }

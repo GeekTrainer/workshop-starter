@@ -3,6 +3,7 @@
 // CopilotConnection, and streams the assistant's reply into a response area.
 
 import { CopilotConnection } from './copilot.js';
+import { showLoginGate } from './auth.js';
 
 export function mountPromptBox(container: HTMLElement): void {
   container.innerHTML = `
@@ -59,9 +60,12 @@ export function mountPromptBox(container: HTMLElement): void {
       setStatus('done');
       setBusy(false);
     },
-    onError: (msg) => {
+    onError: (msg, code) => {
       setStatus(`error: ${msg}`);
       setBusy(false);
+      if (code === 'auth') {
+        void showLoginGate().then(() => copilot.connect());
+      }
     },
   });
   copilot.connect();
