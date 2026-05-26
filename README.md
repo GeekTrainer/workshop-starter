@@ -17,7 +17,9 @@ Everything else — chat UI, code editor, the protocol the model follows, visual
 ## Prerequisites
 
 - Node.js 20 or newer.
-- The [Copilot CLI][copilot-cli] available on `PATH` (`npm i -g @github/copilot`). The starter spawns `copilot auth login` for the device-flow sign-in.
+- The [GitHub CLI][gh-cli] (`gh`). Sign in once with `gh auth login` — the Copilot SDK picks this up automatically.
+
+Alternatively, install the [Copilot CLI][copilot-cli] (`npm i -g @github/copilot`) and use its device-flow sign-in via the in-app login overlay.
 
 ## Run it
 
@@ -27,6 +29,14 @@ npm run dev
 ```
 
 Web app: <http://localhost:5173>. Server: <http://localhost:5174>.
+
+If anything looks off, run:
+
+```bash
+npm run doctor
+```
+
+It checks Node version, `gh` auth, Copilot SDK auth, and that the dev servers are reachable.
 
 ## Where to start
 
@@ -69,5 +79,6 @@ npm run build
 
 [copilot-sdk]: https://github.com/github/copilot-sdk
 [copilot-cli]: https://github.com/github/copilot-cli
+[gh-cli]: https://cli.github.com/
 [hydra]: https://hydra.ojack.xyz
 [mcp]: https://modelcontextprotocol.io

@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "concurrently -n web,server -c cyan,magenta \"npm run dev -w @workshop/web\" \"npm run dev -w @workshop/server\"",
     "build": "npm run build -w @workshop/shared && npm run build -w @workshop/server && npm run build -w @workshop/web",
-    "typecheck": "npm run typecheck --workspaces --if-present"
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "doctor": "node scripts/doctor.mjs"
   },
   "devDependencies": {
     "concurrently": "^9.0.0",
